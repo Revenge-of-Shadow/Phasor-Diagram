@@ -41,11 +41,13 @@ void makeArrow(double given_angle, double r, QPainter& painter){
 }
 void RenderArea::paintEvent(QPaintEvent *event)
 {
-    QBrush brush(Qt::GlobalColor::white, Qt::BrushStyle::SolidPattern);
+    QBrush brush(Qt::GlobalColor::black, Qt::BrushStyle::SolidPattern);
     QRect canvas(10, 20, width()-10, height()-40);
 
     QPainter painter(this);
-    brush.setColor(Qt::GlobalColor::black);
+    QFont font = painter.font();
+    font.setPointSize(font.pointSize()*2);
+    painter.setFont(font);
     painter.setPen(palette().dark().color());
     painter.setBrush(brush);
     painter.drawRect(QRect(0,0, width()-1, height()-1));
@@ -139,11 +141,13 @@ void RenderArea::paintEvent(QPaintEvent *event)
     }
 
     phasor.setP2(In.p2());
-    painter.drawLine(phasor);
-    // Arrowhead
-    painter.translate(phasor.p2());
-    makeArrow(std::atan(phasor.p2().y()/double(phasor.p2().x())), -r/8.f, painter);
-
+    //	Negligibly small phasors cause severe glitch: a vector that starts code-knows-where.
+    if(phasor.toLineF().length() != 0){
+        painter.drawLine(phasor);
+        // Arrowhead
+        painter.translate(phasor.p2());
+        makeArrow(std::atan(phasor.p2().y()/double(phasor.p2().x())), -r/8.f, painter);
+    }
     QString str("IN");
     painter.drawText(phasor.p2()/8.f, str);
 
