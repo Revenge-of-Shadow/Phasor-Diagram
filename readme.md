@@ -1,0 +1,1 @@
+![Singular image](./Phasors.png)
