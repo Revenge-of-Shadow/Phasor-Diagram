@@ -8,7 +8,7 @@
 
 const int IdRole = Qt::UserRole;
 Window::Window(){
-    this->setStyleSheet("background-color: black; color: white;");
+    this->setStyleSheet("background-color: white; color: black;");
 
     ra = new RenderArea;
     l_I1 = new QLabel(tr("I1 [A]:"));
